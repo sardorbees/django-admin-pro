@@ -505,7 +505,7 @@ SWAGGER_SETTINGS = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "https://admin-solar-energy.onrender.com",
+    "https://django-admin-pro.onrender.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -513,7 +513,7 @@ CSRF_COOKIE_NAME = "csrftoken"
 CSRF_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_SECURE = True
 
-CSRF_TRUSTED_ORIGINS = ["https://solor-energy.vercel.app", "https://admin-solar-energy.onrender.com"]
+CSRF_TRUSTED_ORIGINS = ["https://solor-energy.vercel.app", "https://django-admin-pro.onrender.com"]
 
 CSRF_COOKIE_HTTPONLY = False
 
@@ -546,8 +546,8 @@ JAZZMIN_SETTINGS = {
     "site_title": "Solar Energy",
     "site_header": "Solar Energy",
     "site_brand": "Solar Energy",
-    "site_icon": "../media/assets/img/logo.png",
-    "site_logo": "../media/assets/img/12.png",
+    "site_icon": "../media/assets/logo.png",
+    "site_logo": "../media/assets/12.png",
     "language_chooser": True,
     "changeform_format": "horizontal_tabs",
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
