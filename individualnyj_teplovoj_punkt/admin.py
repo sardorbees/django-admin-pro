@@ -24,10 +24,10 @@ class CategoryAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'category', 'price', 'old_price', 'installment_price',
-        'color', 'tag', 'rating', 'reviews', 'in_stock', 'is_available', 'views', 'power'
+        'color', 'brand', 'rating', 'reviews', 'in_stock', 'is_available', 'views', 'power'
     )
-    list_filter = ('category', 'color', 'tag', 'in_stock', 'is_available', 'power')
-    search_fields = ('name', 'description', 'color', 'tag')
+    list_filter = ('category', 'color', 'brand', 'in_stock', 'is_available', 'power')
+    search_fields = ('name', 'description', 'color', 'brand')
     prepopulated_fields = {"slug": ("name",)}
     readonly_fields = ('views',)
     ordering = ('-id',)

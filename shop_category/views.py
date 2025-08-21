@@ -4,6 +4,7 @@ from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -16,6 +17,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     filterset_fields = ['power', 'category']
     search_fields = ['name', 'description']
     ordering_fields = ['price', 'rating', 'popularity']
+
+    def get(self, request):
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
+        products = Product.objects.all().order_by('id')
+        result_page = paginator.paginate_queryset(products, request)
+        serializer = ProductSerializer(result_page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
     def get_queryset(self):
         queryset = Product.objects.all()
@@ -57,28 +66,16 @@ class ProductTypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ProductType.objects.all()
     serializer_class = ProductTypeSerializer
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import generics, filters
 from .models import Product
 from .serializers import ProductSerializer
 
-@api_view(['GET'])
-def product_list(request):
-    sort_by = request.GET.get('sort_by', 'price')
-
-    if sort_by == 'price':
-        products = Product.objects.all().order_by('price')
-    elif sort_by == 'rating':
-        products = Product.objects.all().order_by('-rating')
-    elif sort_by == 'new':
-        products = Product.objects.all().order_by('-created_at')
-    elif sort_by == 'popularity':
-        products = Product.objects.all().order_by('-popularity')
-    else:
-        products = Product.objects.all()
-
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+class ProductList(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['price', 'rating', 'power']
+    ordering = ['price']  # сортировка по умолчанию — по цене
 
 # shop_category/views.py
 
@@ -99,7 +96,6 @@ class BrandViewSet(viewsets.ModelViewSet):
         qs = self.get_queryset()
 
         if sort == 'price_asc':
-            # Предположим, что у модели Brand есть поле price (число)
             max_price = qs.aggregate(max_price=Max('price'))['max_price']
             if max_price is not None:
                 qs = qs.filter(price=max_price)

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name="Имя")
@@ -57,10 +58,15 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True, verbose_name="Активен")
     views = models.IntegerField(default=0, verbose_name="Просмотры")
     popularity = models.IntegerField(default=0, verbose_name="Популярность")
-    power = models.PositiveIntegerField(null=True, blank=True, verbose_name="Мощность (W)")
+    timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    power = models.IntegerField(null=True, blank=True, verbose_name="Мощность (W)")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, default=1)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['-popularity']
 
     class Meta:
         verbose_name = "Товар"

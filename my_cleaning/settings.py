@@ -193,6 +193,7 @@ INSTALLED_APPS = [
     'prosses',
     'translate_api',
     'modeltranslation',
+    'partners',
 ]
 
 LANGUAGES = (

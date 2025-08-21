@@ -13,5 +13,5 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         ("Дополнительно", {"fields": ("phone_number", "image")}),
     )
-    list_display = ("username", "email", "first_name", "last_name", "phone_number")
+    list_display = ("username", "password", "phone_number")
     inlines = [AddressInline]  # Добавляем inline с адресами

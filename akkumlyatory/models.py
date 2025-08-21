@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name="Имя")
@@ -51,16 +52,21 @@ class Product(models.Model):
     color = models.CharField(max_length=50, verbose_name="Цвет")
     brand = models.CharField(max_length=100, null=True, blank=True, verbose_name="brand")
     rating = models.DecimalField(max_digits=2, decimal_places=1, verbose_name="Рейтинг")
-    reviews = models.IntegerField(default=0, verbose_name="cкидка % пиши")
+    reviews = models.IntegerField(default=0, verbose_name="Отзывы")
     in_stock = models.BooleanField(default=True, verbose_name="В наличии")
     installment_price = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Цена в рассрочку")
     is_available = models.BooleanField(default=True, verbose_name="Активен")
     views = models.IntegerField(default=0, verbose_name="Просмотры")
     popularity = models.IntegerField(default=0, verbose_name="Популярность")
-    power = models.PositiveIntegerField(null=True, blank=True, verbose_name="Мощность (W)")
+    timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    power = models.IntegerField(null=True, blank=True, verbose_name="Мощность (W)")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, default=1)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['-popularity']
 
     class Meta:
         verbose_name = "Товар"

@@ -79,6 +79,7 @@ urlpatterns = [
     path("api/dyness/", include('dyness.urls')),
     path("api/edison/", include('edison.urls')),
     path("api/growat/", include('growat.urls')),
+    path("api/partners/", include('partners.urls')),
     path("api/gybrid/", include('gybrid.urls')),
     path("api/hz_solar/", include('hz_solar.urls')),
     path("api/invt/", include('invt.urls')),
